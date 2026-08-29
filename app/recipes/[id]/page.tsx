@@ -1,4 +1,6 @@
+import { Button } from "@/components/ui/button";
 import prisma from "../../lib/prisma";
+import { deleteRecipe } from "../actions";
 
 export default async function RecipePage({params}: {
     params: Promise<{ id: string }>
@@ -14,6 +16,9 @@ export default async function RecipePage({params}: {
     
     return (
         <div>
+            <form action={deleteRecipe.bind(null, recipe.id)}>
+                <Button type="submit" variant="destructive">Usuń przepis</Button>
+            </form>
             <h1>{recipe.title}</h1>
             <span>Trudność: {recipe.difficulty}. Czas: {recipe.prepTimeMinutes} min. Liczba porcji: {recipe.servings}</span>
             <br/>

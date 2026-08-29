@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import prisma from "@/app/lib/prisma";
 import { Difficulty, MealType } from "@/app/generated/prisma/enums";
 
@@ -41,6 +42,7 @@ export async function createRecipe(data: CreateRecipeInput) {
     });
 
     revalidatePath("/");
+    redirect("/");
 }
 
 export async function getIngredientNames() {
@@ -48,4 +50,11 @@ export async function getIngredientNames() {
         select: { name: true },
         orderBy: { name: 'asc' },
     })
+}
+
+export async function deleteRecipe(id: string) {
+    await prisma.recipeIngredient.deleteMany({ where: { recipeId: id } });
+    await prisma.recipe.delete({ where: { id } });
+    revalidatePath("/");
+    redirect("/");
 }

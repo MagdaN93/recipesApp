@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
@@ -13,12 +14,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Difficulty, MealType } from "../../generated/prisma/enums";
-import { createRecipe } from "../actions";
+import { createRecipe, getIngredientNames } from "../actions";
 import { IngredientCombobox } from "@/app/components/IngredientCombobox";
 
 const ingredient = z.object({
   name: z.string().min(1, "Nazwa składnika wymagana"),
-  amount: z.string().min(1, "Ilość wymagana"),
+  amount: z.string(),
 });
 const step = z.object({
     value: z.string().min(1)
@@ -60,6 +61,12 @@ export default function NewRecipePage() {
         name: "ingredients"
     });
 
+    const [ingredientNames, setIngredientNames] = useState<string[]>([]);
+
+    useEffect(() => {
+        getIngredientNames().then((data) => setIngredientNames(data.map((i) => i.name)));
+    }, []);
+
     function onSubmit(values: RecipeFormOutput ) {
        createRecipe(values);
     }
@@ -67,7 +74,6 @@ export default function NewRecipePage() {
     return (
         <>
             <h1 className="text-center">Dodaj przepis</h1>
-         
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto py-10">
                     <Field>
                         <FieldLabel htmlFor="title">Nazwa</FieldLabel>
@@ -149,19 +155,18 @@ export default function NewRecipePage() {
                     <FieldLabel className="mt-4">Dodaj składniki:</FieldLabel>
                     {ingredientFields.map((ingredient, index) => 
                         <div key={ingredient.id} className="flex items-center gap-2">
-                            {/*<Input 
-                                type="text"
-                                placeholder="Składnik"
-                                {...form.register(`ingredients.${index}.name`)}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter") {
-                                        e.preventDefault();
-                                        appendIngredient({ name: "", amount: "" });
-                                    }
-                                }}
-                                list='ingredientsList'
-                            />*/}
-                            <IngredientCombobox/>
+                            <Controller
+                                control={form.control}
+                                name={`ingredients.${index}.name`}
+                                render={({ field }) => (
+                                    <IngredientCombobox
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        items={ingredientNames}
+                                    />
+                                )}
+                            />
+                           
                             <Input
                                 type="text"
                                 placeholder="Ilość"
@@ -173,6 +178,8 @@ export default function NewRecipePage() {
                                     }
                                 }}
                             />
+                            <FieldError>{form.formState.errors.ingredients?.[index]?.name?.message}</FieldError>
+                            <FieldError>{form.formState.errors.ingredients?.[index]?.amount?.message}</FieldError>
                             {ingredientFields.length > 1 && (
                                 <Button type="button" onClick={() => removeIngredient(index)}>Usuń składnik</Button>
                             )}

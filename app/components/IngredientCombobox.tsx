@@ -1,7 +1,3 @@
-import { useEffect, useState } from "react";
-
-import { getIngredientNames } from "../recipes/actions";
- 
 import {
   Combobox,
   ComboboxContent,
@@ -10,23 +6,28 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox"
- 
-export function IngredientCombobox() {
-    const [ingredientNames, setIngredientNames] = useState<string[]>([]);
-    
-    useEffect(() => {
-        getIngredientNames().then(data => setIngredientNames(data.map(i => i.name)));
-    }, []);
 
+type IngredientComboboxProps = {
+  value: string;
+  onChange: (value: string) => void;
+  items: string[];
+};
+
+export function IngredientCombobox({ value, onChange, items }: IngredientComboboxProps) {
     return (
         <Combobox
-        items={ingredientNames}
+            items={items}
+            inputValue={value}
+            onInputValueChange={onChange}
+            onValueChange={(selected) => {
+                if (typeof selected === "string") onChange(selected);
+            }}
         >
             <ComboboxInput placeholder="Wybierz składnik" />
             <ComboboxContent>
                 <ComboboxEmpty>Nie znaleziono składników.</ComboboxEmpty>
                 <ComboboxList>
-                    {(ingredient) => (
+                    {(ingredient: string) => (
                         <ComboboxItem key={ingredient} value={ingredient}>
                             {ingredient}
                         </ComboboxItem>
