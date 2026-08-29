@@ -1,11 +1,14 @@
-import { recipes } from "@/app/data/recipes";
+import prisma from "../../lib/prisma";
 
 export default async function RecipePage({params}: {
     params: Promise<{ id: string }>
 }) {
     const { id } = await params;
 
-    const recipe = recipes.find((recipe) => recipe.id === id);
+    const recipe = await prisma.recipe.findUnique({
+        where: { id },
+        include: { ingredients: { include: { ingredient: true } } },
+    });
 
     if (!recipe) return <p>Nie znaleziono przepisu</p>
     
@@ -17,9 +20,9 @@ export default async function RecipePage({params}: {
             <br/>
             <h4>Składniki:</h4>
             <ul>
-                {recipe.ingredients.map((ingredient, index) =>
+                {recipe.ingredients.map((recipeIngredient, index) =>
                     <li key={index}>
-                        {ingredient.name} {ingredient.amount}
+                        {recipeIngredient.ingredient.name} {recipeIngredient.amount}
                     </li>
                 )}
             </ul>
