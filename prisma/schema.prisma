@@ -21,6 +21,7 @@ model Recipe {
     mealType        MealType
     steps           String[]
     ingredients     RecipeIngredient[]
+    createdAt       DateTime    @default(now())
 }
 
 model RecipeIngredient {

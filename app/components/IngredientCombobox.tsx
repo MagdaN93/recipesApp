@@ -7,7 +7,7 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox"
 
-type IngredientComboboxProps = {
+interface IngredientComboboxProps {
   value: string;
   onChange: (value: string) => void;
   items: string[];

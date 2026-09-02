@@ -2,7 +2,7 @@ import Link from "next/link";
 import prisma from "./lib/prisma";
 
 export default async function Home() {
-    const recipes = await prisma.recipe.findMany();
+    const recipes = await prisma.recipe.findMany({ orderBy: { createdAt: "asc" } });
     return (
         <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
             <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
@@ -17,7 +17,7 @@ export default async function Home() {
                         Add a recipe
                     </Link>
                     <ol>
-                        {recipes.map((recipe, index) =>
+                        {recipes.map((recipe) =>
                             <li key={recipe.id}>
                                 <Link href={`/recipes/${recipe.id}`}>{recipe.title}</Link>
                             </li>

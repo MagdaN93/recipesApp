@@ -58,3 +58,35 @@ export async function deleteRecipe(id: string) {
     revalidatePath("/");
     redirect("/");
 }
+
+export async function updateRecipe(id: string, data: CreateRecipeInput) {
+    await prisma.recipe.update({
+        where: { id },
+        data: {
+            title: data.title,
+            difficulty: data.difficulty,
+            mealType: data.mealType,
+            prepTimeMinutes: data.prepTimeMinutes,
+            servings: data.servings,
+            steps: data.steps.map((step) => step.value),
+            ingredients: {
+                deleteMany: {},
+                create: data.ingredients.map((ingredient) => {
+                    const normalizedName = ingredient.name.trim().toLowerCase();
+                    return {
+                        amount: ingredient.amount,
+                        ingredient: {
+                            connectOrCreate: {
+                                where: { name: normalizedName },
+                                create: { name: normalizedName },
+                            },
+                        },
+                    };
+                }),
+            },
+        },
+    });
+
+    revalidatePath("/");
+    redirect("/");
+}
