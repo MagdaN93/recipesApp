@@ -42,7 +42,7 @@ export async function createRecipe(data: CreateRecipeInput) {
     });
 
     revalidatePath("/");
-    redirect("/");
+    redirect(`/?mealType=${data.mealType}`);
 }
 
 export async function getIngredientNames() {
@@ -52,11 +52,11 @@ export async function getIngredientNames() {
     })
 }
 
-export async function deleteRecipe(id: string) {
+export async function deleteRecipe(id: string, mealType: MealType) {
     await prisma.recipeIngredient.deleteMany({ where: { recipeId: id } });
     await prisma.recipe.delete({ where: { id } });
     revalidatePath("/");
-    redirect("/");
+    redirect(`/?mealType=${mealType}`);
 }
 
 export async function updateRecipe(id: string, data: CreateRecipeInput) {
@@ -88,5 +88,6 @@ export async function updateRecipe(id: string, data: CreateRecipeInput) {
     });
 
     revalidatePath("/");
-    redirect("/");
+    revalidatePath(`/recipes/${id}`);
+    redirect(`/recipes/${id}`);
 }

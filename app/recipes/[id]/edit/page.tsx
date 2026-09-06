@@ -24,8 +24,8 @@ export default async function EditRecipePage({params}: {params: Promise<{ id: st
 
     return (
         <>
-            <h1 className="text-center">Edytuj przepis</h1>
-            <RecipeForm defaultValues={defaultValues} onSubmit={updateRecipe.bind(null, id)} cancelHref={'/recipes/${id}'}/>
+            <h1 className="text-center">{`Edytuj: ${defaultValues.title}`}</h1>
+            <RecipeForm defaultValues={defaultValues} onSubmit={updateRecipe.bind(null, id)} cancelHref={`/recipes/${id}`}/>
         </>
     )
 }

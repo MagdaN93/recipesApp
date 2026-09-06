@@ -1,39 +1,36 @@
 import {
-  Combobox,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxList,
-} from "@/components/ui/combobox"
+  Autocomplete,
+  AutocompleteContent,
+  AutocompleteEmpty,
+  AutocompleteInput,
+  AutocompleteItem,
+  AutocompleteList,
+} from "@/components/ui/autocomplete"
 
 interface IngredientComboboxProps {
   value: string;
   onChange: (value: string) => void;
   items: string[];
-};
+}
 
 export function IngredientCombobox({ value, onChange, items }: IngredientComboboxProps) {
     return (
-        <Combobox
+        <Autocomplete
             items={items}
-            inputValue={value}
-            onInputValueChange={onChange}
-            onValueChange={(selected) => {
-                if (typeof selected === "string") onChange(selected);
-            }}
+            value={value}
+            onValueChange={onChange}
         >
-            <ComboboxInput placeholder="Wybierz składnik" />
-            <ComboboxContent>
-                <ComboboxEmpty>Nie znaleziono składników.</ComboboxEmpty>
-                <ComboboxList>
+            <AutocompleteInput placeholder="Wybierz składnik" className="flex-1" />
+            <AutocompleteContent>
+                <AutocompleteEmpty>Nie znaleziono składników.</AutocompleteEmpty>
+                <AutocompleteList>
                     {(ingredient: string) => (
-                        <ComboboxItem key={ingredient} value={ingredient}>
+                        <AutocompleteItem key={ingredient} value={ingredient}>
                             {ingredient}
-                        </ComboboxItem>
+                        </AutocompleteItem>
                     )}
-                </ComboboxList>
-            </ComboboxContent>
-        </Combobox>
+                </AutocompleteList>
+            </AutocompleteContent>
+        </Autocomplete>
     )
 }

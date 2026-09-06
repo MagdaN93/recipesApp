@@ -17,13 +17,13 @@ export default async function RecipePage({params}: {
     
     return (
         <div>
-            <div className="flex items-center gap-2">
+            <h1>{recipe.title}</h1>
+            <div className="flex items-center gap-2 my-10">
                 <Button render={<Link href={`/recipes/${recipe.id}/edit`} />} nativeButton={false}>Edytuj</Button>
-                <form action={deleteRecipe.bind(null, recipe.id)}>
+                <form action={deleteRecipe.bind(null, recipe.id, recipe.mealType)}>
                     <Button type="submit" variant="destructive">Usuń przepis</Button>
                 </form>
             </div>
-            <h1>{recipe.title}</h1>
             <span>Trudność: {recipe.difficulty}. Czas: {recipe.prepTimeMinutes} min. Liczba porcji: {recipe.servings}</span>
             <br/>
             <br/>
