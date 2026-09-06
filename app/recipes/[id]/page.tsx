@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import prisma from "../../lib/prisma";
 import { deleteRecipe } from "../actions";
@@ -17,7 +18,11 @@ export default async function RecipePage({params}: {
     
     return (
         <div>
-            <h1>{recipe.title}</h1>
+            <Link href={`/?mealType=${recipe.mealType}`} className="flex items-center gap-1 text-sm text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white">
+                <ArrowLeft className="size-4" />
+                Powrót
+            </Link>
+            <h1 className="mt-4">{recipe.title}</h1>
             <div className="flex items-center gap-2 my-10">
                 <Button render={<Link href={`/recipes/${recipe.id}/edit`} />} nativeButton={false}>Edytuj</Button>
                 <form action={deleteRecipe.bind(null, recipe.id, recipe.mealType)}>

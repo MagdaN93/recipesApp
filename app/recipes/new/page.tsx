@@ -2,12 +2,12 @@ import { RecipeForm } from "@/app/components/RecipeForm";
 import { Difficulty, MealType } from "../../generated/prisma/enums";
 import { createRecipe } from "../actions";
 
-export default function NewRecipePage() {
-
+export default async function NewRecipePage({ searchParams }: { searchParams: Promise<{ mealType?: MealType }> }) {
+    const { mealType } = await searchParams;
     const defaultValues = {
         prepTimeMinutes: 30,
         servings: 2,
-        mealType: MealType.dinner,
+        mealType: mealType ?? MealType.dinner,
         difficulty: Difficulty.easy,
         steps: [{ value: "" }],
         ingredients: [{ name: "", amount: "" }],
