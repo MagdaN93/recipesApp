@@ -23,8 +23,8 @@ export function CategoryNav() {
                     href={`/?mealType=${tab.value}`}
                     className={
                         activeMealType === tab.value
-                            ? "border-b-2 border-black pb-2 text-sm font-semibold text-black dark:border-white dark:text-white"
-                            : "border-b-2 border-transparent pb-2 text-sm font-medium text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white"
+                            ? "border-b-2 border-black pb-2 font-semibold text-black dark:border-white dark:text-white"
+                            : "border-b-2 border-transparent pb-2 font-medium text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white"
                     }
                 >
                     {tab.label}
