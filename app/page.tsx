@@ -2,6 +2,7 @@ import Link from "next/link";
 import prisma from "./lib/prisma";
 import { MealType } from "./generated/prisma/enums";
 import { CategoryNav } from "./components/CategoryNav";
+import { SearchPanel } from "./components/SearchPanel/SearchPanel";
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ mealType?: MealType }> }) {
     const { mealType } = await searchParams;
@@ -15,6 +16,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ m
     return (
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
             <CategoryNav />
+            <SearchPanel />
             <Link
                 href={`/recipes/new?mealType=${defaultMealType}`}
                 className="rounded-md bg-black px-4 py-2 text-lg font-medium text-white dark:bg-white dark:text-black"
