@@ -1,7 +1,9 @@
 import prisma from "@/app/lib/prisma";
+import { Prisma } from "../generated/prisma/client";
 
-export async function findRecipesByIngredients(userKeys: string[]) {
-    const recipes = await prisma.recipe.findMany({ 
+export async function findRecipesByIngredients(where: Prisma.RecipeWhereInput, userKeys: string[]) {
+    const recipes = await prisma.recipe.findMany({
+        where,
         include: { ingredients: {
             where: { ingredient: { isStaple: false } },
             include: { ingredient: true}
@@ -14,9 +16,7 @@ export async function findRecipesByIngredients(userKeys: string[]) {
         const missing = requiredKeys.length - includeKeys.length;
         
         return { id: recipe.id, title: recipe.title, matched: includeKeys.length, missing };
-    })
+    });
 
-    rankedRecipes.sort((a,b) => a.matched - b.matched)
-    
-    return rankedRecipes;
+    return rankedRecipes.filter(r => r.matched > 0).sort((a,b) => b.matched - a.matched || a.missing - b.missing || a.title.localeCompare(b.title));
 }

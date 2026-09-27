@@ -46,10 +46,19 @@ export async function createRecipe(data: CreateRecipeInput) {
 }
 
 export async function getIngredientNames() {
-   return await prisma.ingredient.findMany({
+    return await prisma.ingredient.findMany({
         select: { name: true },
         orderBy: { name: 'asc' },
+    });
+}
+
+export async function getIngredientGroups() {
+    const ingredients = await prisma.ingredient.findMany({
+        where: { isStaple: false },
+        select: {name: true, baseName: true },
     })
+    const keys = new Set(ingredients.map(i => i.baseName ?? i.name));
+    return Array.from(keys).sort((a,b) => a.localeCompare(b));
 }
 
 export async function deleteRecipe(id: string, mealType: MealType) {

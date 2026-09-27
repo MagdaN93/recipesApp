@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
 import { ChangeEvent } from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/ui/input-group";
@@ -19,13 +19,13 @@ export function SearchByName() {
         setValue(nextValue);
 
         const params = new URLSearchParams(searchParams);
-        if (!!value) {
-            params.set("name", value)
+        if (!!nextValue) {
+            params.set("name", nextValue)
         } else {
             params.delete("name")
         }
 
-        debounce( () => {router.replace(`/?${params.toString()}`, { scroll: false })});
+        debounce( () => {router.replace(`/?${params.toString()}`, { scroll: false })},'searchByName');
     }
     
 

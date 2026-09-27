@@ -1,5 +1,5 @@
 const inputTimeout: Record<string, NodeJS.Timeout | null> = {};
-export const debounce = (callback: (...args: any) => void, timeout_interval?: number, key = 'default'): void => {
+export const debounce = (callback: (...args: any) => void, key = 'default', timeout_interval?: number, ): void => {
     if (inputTimeout[key]) {
         clearTimeout(inputTimeout[key]);
     }

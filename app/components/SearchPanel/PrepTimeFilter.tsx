@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -26,12 +26,12 @@ export function PrepTimeFilter() {
     const handleCheckChange = (checked:boolean, itemValue:string) => {
         const params = new URLSearchParams(searchParams);
         if (checked) {
-            params.set("maxTime", itemValue)
+            params.set("maxTime", itemValue);
         } else {
-            params.delete("maxTime")
+            params.delete("maxTime");
         }
 
-        router.replace(`/?${params.toString()}`, { scroll: false })
+        router.replace(`/?${params.toString()}`, { scroll: false });
     }
 
     return (
