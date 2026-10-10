@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { login } from '@/app/auth/actions';
+import { login, loginAsDemo } from '@/app/auth/actions';
 import { LoginSchema, LoginFormInput, LoginFormOutput } from "../auth/schema";
 
 export function LoginForm() {
@@ -59,6 +59,9 @@ export function LoginForm() {
                 <Button type="submit">Zaloguj</Button>
             </form>
         </FormProvider>
+        <form action={loginAsDemo} className="pb-6">
+            <Button type="submit" variant="outline">Wejdź jako demo</Button>
+        </form>
         <div className="flex items-center">
             <h4 className="mb-0">Nie masz konta? Załóż </h4>
             <Link

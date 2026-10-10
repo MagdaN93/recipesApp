@@ -8,6 +8,7 @@ import { AuthError } from "next-auth"
 import prisma from "@/app/lib/prisma";
 import { Prisma } from "../generated/prisma/client";
 import { LoginSchema, RegistrationSchema } from "./schema";
+import { DEMO_EMAIL, DEMO_PASSWORD } from "./demo";
 
 export async function signup(data: { email: string; password: string, replypassword: string }) {
     const validatedFields = RegistrationSchema.safeParse({
@@ -65,6 +66,10 @@ export async function login(data: { email: string; password: string }) {
         }
         throw error;
     }
+}
+
+export async function loginAsDemo() {
+    await signIn("credentials", { email: DEMO_EMAIL, password: DEMO_PASSWORD, redirectTo: "/" });
 }
 
 export async function logout() {
