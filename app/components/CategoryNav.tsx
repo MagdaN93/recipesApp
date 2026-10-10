@@ -16,15 +16,15 @@ export function CategoryNav() {
     const activeMealType = searchParams.get("mealType") ?? MealType.dinner;
 
     return (
-        <nav className="flex w-full gap-6 border-b border-zinc-200 dark:border-zinc-800">
+        <nav className="flex w-full gap-6 border-b border-border">
             {tabs.map((tab) => (
                 <Link
                     key={tab.value}
                     href={`/?mealType=${tab.value}`}
                     className={
                         activeMealType === tab.value
-                            ? "border-b-2 border-black pb-2 font-semibold text-black dark:border-white dark:text-white"
-                            : "border-b-2 border-transparent pb-2 font-medium text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white"
+                            ? "border-b-2 pb-2 font-semibold border-primary text-foreground"
+                            : "border-b-2 border-transparent pb-2 font-medium text-muted-foreground hover:text-foreground"
                     }
                 >
                     {tab.label}

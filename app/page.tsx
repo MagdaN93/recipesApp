@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Check, X } from "lucide-react";
 import { auth } from "@/auth";
 
+import { Button } from "@/components/ui/button";
 import prisma from "./lib/prisma";
 import { Prisma } from "./generated/prisma/client";
 import { MealType } from "./generated/prisma/enums";
@@ -40,12 +41,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ m
             <CategoryNav />
             <SearchPanel />
             {session?.user.role === "admin" &&
-                <Link
-                    href={`/recipes/new?mealType=${defaultMealType}`}
-                    className="rounded-md bg-black px-4 py-2 text-lg font-medium text-white dark:bg-white dark:text-black"
+                <Button
+                    render={<Link href={`/recipes/new?mealType=${defaultMealType}`} />}
+                    nativeButton={false}
+                    className="px-4 py-2 text-lg font-medium"
                 >
                     Dodaj nowy przepis
-                </Link>
+                </Button>
             }
             {recipes.length === 0 ? (
                 <p className="text-lg text-center self-center">Brak wyników</p>
@@ -56,8 +58,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ m
                         <Link href={`/recipes/${recipe.id}`}>{recipe.title}</Link>
                         {recipe.matched !== undefined && recipe.missing !== undefined &&
                             <div className="flex">
-                                <span className="flex items-center text-green-600"><Check className="size-4"/> {recipe.matched}</span>
-                                {recipe.missing > 0 && <span className="flex items-center text-red-600 ml-2"><X className="size-4"/> {recipe.missing}</span>}
+                                <span className="flex items-center text-primary"><Check className="size-4"/> {recipe.matched}</span>
+                                {recipe.missing > 0 && <span className="flex items-center text-destructive ml-2"><X className="size-4"/> {recipe.missing}</span>}
                             </div>
                         }
                     </li>

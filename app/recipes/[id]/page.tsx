@@ -21,7 +21,7 @@ export default async function RecipePage({params}: {
     
     return (
         <div>
-            <Link href={`/?mealType=${recipe.mealType}`} className="flex items-center gap-1 text-sm text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white">
+            <Link href={`/?mealType=${recipe.mealType}`} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
                 <ArrowLeft className="size-4" />
                 Powrót
             </Link>

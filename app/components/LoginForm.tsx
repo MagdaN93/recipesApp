@@ -66,7 +66,7 @@ export function LoginForm() {
             <h4 className="mb-0">Nie masz konta? Załóż </h4>
             <Link
                 href={`/register`}
-                    className="pl-2 text-lg font-medium text-blue-700"
+                    className="pl-2 text-lg font-medium text-primary"
                 >
                 tutaj
             </Link>

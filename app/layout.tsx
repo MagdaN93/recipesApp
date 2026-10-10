@@ -28,13 +28,15 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     return (
         <html lang="en" className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}>
             <body className="min-h-full flex flex-col">
-                <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+                <div className="flex flex-col flex-1 bg-canvas items-center justify-center font-sans">
                     {session &&
                         <header className="self-end m-3">
-                            <form action={logout}><Button className="bg-black px-4 py-2 text-lg font-medium text-white dark:bg-white dark:text-black" type="submit" variant="outline">Wyloguj</Button></form>
+                            <form action={logout}>
+                                <Button className="px-4 py-2 text-lg font-medium" type="submit">Wyloguj</Button>
+                            </form>
                         </header>
                     }
-                    <main className="flex flex-1 w-full max-w-3xl flex-col items-center gap-8 p-16 bg-white dark:bg-black sm:items-start">
+                    <main className="flex bg-background border border-border flex-1 w-full max-w-3xl flex-col items-center gap-8 p-16 sm:items-start">
                         {children}
                     </main>
                 </div>

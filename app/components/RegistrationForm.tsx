@@ -75,7 +75,7 @@ export function RegistrationForm() {
             <h4 className="mb-0">Masz już konto?</h4>
             <Link
                 href={`/login`}
-                    className="pl-2 text-lg font-medium text-blue-700"
+                    className="pl-2 text-lg font-medium text-primary"
                 >
                 Zaloguj się
             </Link>
