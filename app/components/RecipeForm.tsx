@@ -4,15 +4,15 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import Link from "next/link";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import {
   Field,
   FieldLabel,
   FieldError,
   FieldSeparator
-} from "@/components/ui/field"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Difficulty, MealType } from "../generated/prisma/enums";
 import { IngredientsField } from "./IngredientsField";
 import { StepsField } from "./StepsField";

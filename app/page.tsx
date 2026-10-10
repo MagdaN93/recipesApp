@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { Check, X } from "lucide-react";
+import { auth } from "@/auth";
+
 import prisma from "./lib/prisma";
 import { Prisma } from "./generated/prisma/client";
 import { MealType } from "./generated/prisma/enums";
@@ -6,13 +9,13 @@ import { MealType } from "./generated/prisma/enums";
 import { CategoryNav } from "./components/CategoryNav";
 import { SearchPanel } from "./components/SearchPanel/SearchPanel";
 import { findRecipesByIngredients } from "./recipes/queries";
-import { Check, X } from "lucide-react";
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ mealType?: MealType, name?: string, maxTime?: string, ingredients?: string }> }) {
     const { mealType, name, maxTime, ingredients } = await searchParams;
     const defaultMealType = mealType ?? MealType.dinner;
     const ingredientsArr = ingredients?.split(",").filter(Boolean) ?? [];
     let recipes: { id: string; title: string; matched?: number, missing?: number }[];
+    const session = await auth();
 
     const maxTimeMinutes = Number(maxTime);
 
@@ -36,12 +39,14 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ m
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
             <CategoryNav />
             <SearchPanel />
-            <Link
-                href={`/recipes/new?mealType=${defaultMealType}`}
-                className="rounded-md bg-black px-4 py-2 text-lg font-medium text-white dark:bg-white dark:text-black"
-            >
-                Dodaj nowy przepis
-            </Link>
+            {session?.user.role === "admin" &&
+                <Link
+                    href={`/recipes/new?mealType=${defaultMealType}`}
+                    className="rounded-md bg-black px-4 py-2 text-lg font-medium text-white dark:bg-white dark:text-black"
+                >
+                    Dodaj nowy przepis
+                </Link>
+            }
             {recipes.length === 0 ? (
                 <p className="text-lg text-center self-center">Brak wyników</p>
             ) : (

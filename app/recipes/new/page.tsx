@@ -1,8 +1,14 @@
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
 import { RecipeForm } from "@/app/components/RecipeForm";
 import { Difficulty, MealType } from "../../generated/prisma/enums";
 import { createRecipe } from "../actions";
 
 export default async function NewRecipePage({ searchParams }: { searchParams: Promise<{ mealType?: MealType }> }) {
+    const session = await auth();
+    if (session?.user.role !== 'admin') redirect('/');
+
     const { mealType } = await searchParams;
     const defaultValues = {
         prepTimeMinutes: 30,

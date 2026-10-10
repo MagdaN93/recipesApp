@@ -17,6 +17,7 @@ model User {
     email           String      @unique
     passwordHash    String
     createdAt       DateTime    @default(now())
+    role            Role        @default(viewer)
 }
 
 model Recipe {
@@ -62,4 +63,9 @@ enum MealType {
   dessert
   supper
   snack
+}
+
+enum Role { 
+    admin
+    viewer 
 }

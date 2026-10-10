@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import prisma from "@/app/lib/prisma";
 import { Difficulty, MealType } from "@/app/generated/prisma/enums";
+import { requireAdmin } from "../auth/requireAdmin";
 
 type CreateRecipeInput = {
   title: string;
@@ -16,6 +17,7 @@ type CreateRecipeInput = {
 };
 
 export async function createRecipe(data: CreateRecipeInput) {
+    await requireAdmin();
     await prisma.recipe.create({
         data: {
             title: data.title,
@@ -62,6 +64,7 @@ export async function getIngredientGroups() {
 }
 
 export async function deleteRecipe(id: string, mealType: MealType) {
+    await requireAdmin();
     await prisma.recipeIngredient.deleteMany({ where: { recipeId: id } });
     await prisma.recipe.delete({ where: { id } });
     revalidatePath("/");
@@ -69,6 +72,7 @@ export async function deleteRecipe(id: string, mealType: MealType) {
 }
 
 export async function updateRecipe(id: string, data: CreateRecipeInput) {
+    await requireAdmin();
     await prisma.recipe.update({
         where: { id },
         data: {

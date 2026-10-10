@@ -1,9 +1,14 @@
 
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import prisma from "../../../lib/prisma";
 import { RecipeForm } from "@/app/components/RecipeForm";
 import { updateRecipe } from "../../actions";
 
 export default async function EditRecipePage({params}: {params: Promise<{ id: string }>}) {
+    const session = await auth();
+    if (session?.user.role !== 'admin') redirect('/');
+
     const { id } = await params;
     const recipe = await prisma.recipe.findUnique({
         where: { id },
