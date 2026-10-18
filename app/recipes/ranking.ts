@@ -13,5 +13,5 @@ export function rankRecipes(recipes: RecipeInput[], userKeys: string[]) {
         return { id: recipe.id, title: recipe.title, matched: includeKeys.length, missing };
     });
 
-    return rankedRecipes.filter(r => r.matched > 0).sort((a,b) => a.missing - b.missing || b.matched - a.matched || a.title.localeCompare(b.title));
+    return rankedRecipes.filter(r => r.matched > 0).sort((a,b) => b.matched - a.matched || a.missing - b.missing || a.title.localeCompare(b.title));
 }
