@@ -66,8 +66,8 @@ Pick the ingredients you have at home and the app ranks the recipes by how many 
 ### Install and configure
 
 ```bash
-git clone <repository-url>
-cd diet-app
+git clone https://github.com/MagdaN93/recipesApp.git
+cd recipesApp
 npm install
 ```
 
